@@ -1,0 +1,51 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "27.0.3"
+
+
+    defaultConfig {
+        minSdkVersion 9
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:support-annotations:+'
+}
+
+publish {
+    userOrg = 'luffykou'                                            //bintray.com username
+    groupId = 'com.luffykou.xutil'                                  //jcenter url
+    artifactId = 'xutil'                                            //library name
+    publishVersion = '1.0'                                          //version
+    desc = 'A powerful android util library.'                       //description
+    website = 'https://github.com/luffykou/xutil'                   //github url
+}
+
+task makeJar(type: Copy) {
+    delete 'build/libs/android-common-utils.jar'
+    from('build/intermediates/bundles/release/')
+    into('build/libs/')
+    include('classes.jar')
+    rename('classes.jar', 'android-common-utils.jar')
+}
+makeJar.dependsOn(build)
+//在终端执行生成JAR包:   ./gradlew makeJar

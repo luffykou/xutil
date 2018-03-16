@@ -1,0 +1,27 @@
+<resources>
+    <!--<string name="app_name">xUtil</string>-->
+    <string name="app_name">运营推广</string>
+
+    <!--腾讯、360、百度、小米、豌豆荚-->
+
+    <!--http://sj.qq.com/-->
+    <string name="package_tencent">com.tencent.android.qqdownloader</string>
+    <string name="app_tencent">MobileAssistant_1.apk</string>
+
+    <!--http://sj.360.cn/index.html-->
+    <string name="package_360">com.qihoo.appstore</string>
+    <string name="app_360">com.qihoo.appstore_300070071.apk</string>
+
+    <!--http://shouji.baidu.com/appsearch-->
+    <string name="package_baidu">com.baidu.appsearch</string>
+    <string name="app_baidu">appsearch_AndroidPhone_1012271b.apk</string>
+
+    <!--http://os-android.liqucn.com/rj/116770.shtml-->
+    <string name="package_xiaomi">com.xiaomi.market</string>
+    <string name="app_xiaomi">com.xiaomi.market_1.4.4_liqucn.com.apk</string>
+
+    <!--https://www.wandoujia.com/-->
+    <string name="package_wandoujia">com.wandoujia.phoenix2</string>
+    <string name="app_wandoujia">Wandoujia_110649_web_seo_baidu_homepage.apk</string>
+    <string name="title_activity_main">MainActivity</string>
+</resources>
