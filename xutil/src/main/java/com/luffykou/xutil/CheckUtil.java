@@ -1,4 +1,4 @@
-package litesuits.common.assist;
+package com.luffykou.xutil;
 
 import java.util.Collection;
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.Map;
  * @author mty
  * @date 2013-6-10下午5:50:57
  */
-public class Check {
+public class CheckUtil {
 
 	public static boolean isEmpty(CharSequence str) {
 		return isNull(str) || str.length() == 0;

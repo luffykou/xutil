@@ -1,4 +1,4 @@
-package litesuits.common.utils;
+package litesuits.common.util;
 
 /**
  * reference apache commons <a

@@ -184,7 +184,7 @@ public class ScreenUtil {
     /**
      * 判断是否锁屏
      */
-    public static boolean isScreenLocked(Context context) {
+    public static boolean isLocked(Context context) {
         KeyguardManager km = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
         return km.inKeyguardRestrictedInputMode();
     }

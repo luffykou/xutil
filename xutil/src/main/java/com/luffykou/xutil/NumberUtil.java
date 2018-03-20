@@ -1,12 +1,8 @@
-package litesuits.common.utils;
+package com.luffykou.xutil;
 
-/**
- * @author MaTianyu
- * @date 2014-11-21
- */
 public class NumberUtil {
 
-    public static int convertToint(String intStr, int defValue) {
+    public static int convert2int(String intStr, int defValue) {
         try {
             return Integer.parseInt(intStr);
         } catch (NumberFormatException e) {
@@ -15,7 +11,7 @@ public class NumberUtil {
         return defValue;
     }
 
-    public static long convertTolong(String longStr, long defValue) {
+    public static long convert2long(String longStr, long defValue) {
         try {
             return Long.parseLong(longStr);
         } catch (NumberFormatException e) {
@@ -24,7 +20,7 @@ public class NumberUtil {
         return defValue;
     }
 
-    public static float convertTofloat(String fStr, float defValue) {
+    public static float convert2float(String fStr, float defValue) {
         try {
             return Float.parseFloat(fStr);
         } catch (NumberFormatException e) {
@@ -33,7 +29,7 @@ public class NumberUtil {
         return defValue;
     }
 
-    public static double convertTodouble(String dStr, double defValue) {
+    public static double convert2double(String dStr, double defValue) {
         try {
             return Double.parseDouble(dStr);
         } catch (NumberFormatException e) {
@@ -43,7 +39,7 @@ public class NumberUtil {
     }
 
 
-    public static Integer convertToInteger(String intStr) {
+    public static Integer convert2Integer(String intStr) {
         try {
             return Integer.parseInt(intStr);
         } catch (NumberFormatException e) {
@@ -52,7 +48,7 @@ public class NumberUtil {
         return null;
     }
 
-    public static Long convertToLong(String longStr) {
+    public static Long convert2Long(String longStr) {
         try {
             return Long.parseLong(longStr);
         } catch (NumberFormatException e) {
@@ -70,7 +66,7 @@ public class NumberUtil {
         return null;
     }
 
-    public static Double convertToDouble(String dStr) {
+    public static Double convert2Double(String dStr) {
         try {
             return Double.parseDouble(dStr);
         } catch (NumberFormatException e) {
@@ -78,5 +74,4 @@ public class NumberUtil {
         }
         return null;
     }
-
 }

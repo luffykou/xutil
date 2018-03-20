@@ -1,4 +1,6 @@
-package litesuits.common.utils;
+package com.luffykou.xutil;
+
+import com.luffykou.xutil.IOUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,13 +11,10 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
 
-/**
- * @author MaTianyu
- * @date 2014-08-10
- */
 public class FileUtil {
 
-    private static final String TAG = FileUtil.class.getSimpleName();
+    private FileUtil() {
+    }
 
     public static void fileChannelCopy(File s, File t) {
         FileInputStream fi = null;
@@ -29,13 +28,8 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            try {
-                if (fo != null) fo.close();
-                if (fi != null) fi.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            IOUtil.close(fi);
+            IOUtil.close(fo);
         }
     }
 
@@ -45,11 +39,11 @@ public class FileUtil {
         if (fileLen < 1024) {
             fileSizeString = df.format((double) fileLen) + "B";
         } else if (fileLen < 1048576) {
-            fileSizeString = df.format((double) fileLen / 1024) + "K";
+            fileSizeString = df.format((double) fileLen / 1024.0) + "K";
         } else if (fileLen < 1073741824) {
-            fileSizeString = df.format((double) fileLen / 1048576) + "M";
+            fileSizeString = df.format((double) fileLen / 1048576.0) + "M";
         } else {
-            fileSizeString = df.format((double) fileLen / 1073741824) + "G";
+            fileSizeString = df.format((double) fileLen / 1073741824.0) + "G";
         }
         return fileSizeString;
     }
@@ -57,7 +51,7 @@ public class FileUtil {
     /***
      * 根据路径删除图片
      */
-    public static boolean deleteFile(File file)throws IOException {
+    public static boolean deleteFile(File file) throws IOException {
         return file != null && file.delete();
     }
 
@@ -69,7 +63,7 @@ public class FileUtil {
     public static String getExtensionName(String filename) {
         if ((filename != null) && (filename.length() > 0)) {
             int dot = filename.lastIndexOf('.');
-            if ((dot >-1) && (dot < (filename.length() - 1))) {
+            if ((dot > -1) && (dot < (filename.length() - 1))) {
                 return filename.substring(dot + 1);
             }
         }

@@ -1,14 +1,13 @@
-package litesuits.common.utils;
+package com.luffykou.xutil;
+
+import com.luffykou.xutil.IOUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-/**
- * @author MaTianyu
- * @date 14-7-31
- */
 public class ByteUtil {
     /**
      * byte[] 转为 对象
@@ -16,13 +15,18 @@ public class ByteUtil {
      * @param bytes
      * @return
      */
-    public static Object byteToObject(byte[] bytes) throws Exception {
+    public static Object byteToObject(byte[] bytes) {
         ObjectInputStream ois = null;
         try {
             ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
             return ois.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         } finally {
-            if (ois != null) ois.close();
+            IOUtil.close(ois);
+            return null;
         }
     }
 
@@ -32,28 +36,27 @@ public class ByteUtil {
      * @param obj
      * @return
      */
-    public static byte[] objectToByte(Object obj) throws Exception {
+    public static byte[] objectToByte(Object obj) {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream oos = null;
         try {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
             oos = new ObjectOutputStream(bos);
             oos.writeObject(obj);
             return bos.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
         } finally {
-            if (oos != null) oos.close();
+            IOUtil.close(bos);
+            IOUtil.close(oos);
+            return null;
         }
-    }
-
-    public static void byteToBit(byte[] bytes, StringBuilder sb) {
-        for (int i = 0; i < Byte.SIZE * bytes.length; i++)
-            sb.append((bytes[i / Byte.SIZE] << i % Byte.SIZE & 0x80) == 0 ? '0' : '1');
     }
 
     public static String byteToBit(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < Byte.SIZE * bytes.length; i++)
+        for (int i = 0; i < Byte.SIZE * bytes.length; i++) {
             sb.append((bytes[i / Byte.SIZE] << i % Byte.SIZE & 0x80) == 0 ? '0' : '1');
+        }
         return sb.toString();
     }
-
 }

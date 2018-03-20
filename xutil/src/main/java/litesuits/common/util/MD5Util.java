@@ -1,4 +1,4 @@
-package litesuits.common.utils;
+package litesuits.common.util;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,4 +1,4 @@
-package litesuits.common.assist;
+package com.luffykou.xutil.hardware;
 
 import android.hardware.Camera;
 import android.os.Build;
@@ -23,7 +23,7 @@ public class FlashLight {
      */
     private static final int OFF_TIME = 3 * 60 * 1000;
 
-    public boolean turnOnFlashLight() {
+    public boolean turnOn() {
         if (camera == null) {
             camera = Camera.open();
             camera.startPreview();
@@ -38,14 +38,14 @@ public class FlashLight {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    turnOffFlashLight();
+                    turnOff();
                 }
             }, OFF_TIME);
         }
         return true;
     }
 
-    public boolean turnOffFlashLight() {
+    public boolean turnOff() {
         if (camera != null) {
             handler.removeCallbacksAndMessages(null);
             Camera.Parameters parameter = camera.getParameters();

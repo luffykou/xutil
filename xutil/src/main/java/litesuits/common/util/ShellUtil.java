@@ -1,4 +1,4 @@
-package litesuits.common.utils;
+package litesuits.common.util;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

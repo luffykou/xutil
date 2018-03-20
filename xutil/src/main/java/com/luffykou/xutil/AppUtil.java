@@ -8,11 +8,11 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.SystemClock;
+import android.text.TextUtils;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -23,40 +23,45 @@ import java.util.List;
 
 public class AppUtil {
 
-    private static final String TAG = AppUtil.class.getSimpleName();
-
     private AppUtil() {
     }
 
     /**
      * 通过系统隐式意图方式去调用应用市场app详情页
+     * 一般掉用此方法到应用市场去评分
      *
      * @param context
+     * @return 有无应用市场
      */
-    public static void goMarket(Context context, String packageName) {
+    public static boolean goMarket(Context context, String packageName) {
         try {
             Uri uri = Uri.parse("market://details?id=" + packageName);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
+            return true;
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
-            ToastUtil.showShort(context, "您的手机没有安装Android应用市场");
+            return false;
         }
     }
 
     /**
      * 通过应用市场的搜索方法来调用app详情页
+     * 一般掉用此方法到应用市场去评分
+     *
+     * @return 有无应用市场
      */
-    public static void goMarket2(Context context, String appName) {
+    public static boolean goMarket2(Context context, String appName) {
         try {
             Uri uri = Uri.parse("market://search?q=" + appName);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
+            return true;
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
-            ToastUtil.showShort(context, "您的手机没有安装Android应用市场");
+            return false;
         }
     }
 
@@ -67,7 +72,7 @@ public class AppUtil {
      * @param appPackageName 应用包名
      * @return true：安装，false：未安装
      */
-    public static boolean isAppAvilible(Context context, String appPackageName) {
+    public static boolean isInstalled(Context context, String appPackageName) {
         PackageManager packageManager = context.getPackageManager();// 获取package manager
         List<PackageInfo> infos = packageManager.getInstalledPackages(0);// 获取所有已安装程序的包信息
         if (infos != null) {
@@ -81,13 +86,64 @@ public class AppUtil {
         return false;
     }
 
-    public static void uninstall(Context context, String packageName) {
+    /**
+     * 安装指定路径下的Apk
+     * <p>更好的做法应该是startActivityForResult回调判断是否安装成功比较妥当
+     * <p>这里做不了回调，后续自己做处理
+     */
+    public static void installApp(Context context, String filePath) {
+        if (filePath != null && filePath.length() > 4 && filePath.toLowerCase().substring(filePath.length() - 4).equals(".apk")) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            File file = new File(filePath);
+            if (file.exists() && file.isFile() && file.length() > 0) {
+                intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        }
+    }
 
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_DELETE);
-        intent.setData(Uri.parse("package:" + packageName));
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+    /**
+     * 卸载指定包名的App
+     * <p>如果要根据是否卸载成功应该用startActivityForResult回调判断是否还存在比较妥当
+     * <p>这里做不了回调，后续自己做处理
+     */
+    public void uninstallApp(Context context, String packageName) {
+        if (!TextUtils.isEmpty(packageName)) {
+            Intent intent = new Intent(Intent.ACTION_DELETE);
+            intent.setData(Uri.parse("package:" + packageName));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
+    }
+
+    /**
+     * 打开指定包名的App
+     */
+    public static boolean open(Context context, String packageName) {
+        if (!TextUtils.isEmpty(packageName)) {
+            PackageManager pm = context.getPackageManager();
+            Intent launchIntentForPackage = pm.getLaunchIntentForPackage(packageName);
+            if (launchIntentForPackage != null) {
+                context.startActivity(launchIntentForPackage);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 打开指定包名的App应用信息界面
+     */
+    public static boolean openAppInfo(Context context, String packageName) {
+        if (!TextUtils.isEmpty(packageName)) {
+            Intent intent = new Intent();
+            intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+            intent.setData(Uri.parse("package:" + packageName));
+            context.startActivity(intent);
+            return true;
+        }
+        return false;
     }
 
     public static String getPackageName(Context context) {
@@ -164,22 +220,9 @@ public class AppUtil {
     }
 
     /**
-     * 获取 MAC 地址
-     * <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-     */
-    public static String getMacAddress(Context context) {
-        //wifi mac地址
-        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        WifiInfo info = wifi.getConnectionInfo();
-        String mac = info.getMacAddress();
-        LogUtil.i(" MAC：" + mac);
-        return mac;
-    }
-
-    /**
      * 获取 开机时间
      */
-    public static String getBootTimeString() {
+    public static String getBootTime() {
         long ut = SystemClock.elapsedRealtime() / 1000;
         int h = (int) ((ut / 3600));
         int m = (int) ((ut / 60) % 60);

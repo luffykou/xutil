@@ -1,4 +1,4 @@
-package litesuits.common.utils;
+package litesuits.common.util;
 
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
@@ -7,6 +7,7 @@ import android.os.Build;
 import android.text.format.Formatter;
 
 import com.litesuits.android.log.Log;
+import com.luffykou.xutil.FileUtil;
 
 /**
  * Get memory info.

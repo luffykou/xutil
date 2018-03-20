@@ -1,4 +1,4 @@
-package litesuits.common.utils;
+package litesuits.common.util;
 
 import android.app.Notification;
 import android.app.NotificationManager;

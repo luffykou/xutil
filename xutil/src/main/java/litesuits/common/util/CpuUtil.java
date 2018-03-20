@@ -1,7 +1,8 @@
-package litesuits.common.utils;
+package litesuits.common.util;
 
 import com.litesuits.android.log.Log;
 import com.litesuits.common.assist.Check;
+import com.luffykou.xutil.FileUtil;
 
 import java.io.BufferedReader;
 import java.io.File;

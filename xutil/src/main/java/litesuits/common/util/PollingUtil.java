@@ -1,4 +1,4 @@
-package litesuits.common.utils;
+package litesuits.common.util;
 
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
